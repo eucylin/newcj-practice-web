@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
-    "build:dict": "tsx scripts/build-newcj-dict.ts ~/Library/Rime/newcj.dict.yaml src/data/newcj.json"
+    "build:dict": "tsx scripts/build-newcj-dict.ts ~/Library/Rime/newcj.dict.yaml src/data/newcj.json",
+    "build:edu4808": "tsx scripts/fetch-edu4808.ts"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.8",
