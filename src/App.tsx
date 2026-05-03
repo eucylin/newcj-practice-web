@@ -1,7 +1,9 @@
+import { Button } from '@/components/ui/button'
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50">
-      <h1 className="text-3xl font-bold">大新倉頡練習</h1>
+    <div className="min-h-screen flex items-center justify-center">
+      <Button>大新倉頡練習</Button>
     </div>
   )
 }
