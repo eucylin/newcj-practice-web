@@ -10,7 +10,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "build:dict": "tsx scripts/build-newcj-dict.ts ~/Library/Rime/newcj.dict.yaml src/data/newcj.json",
-    "build:edu4808": "tsx scripts/fetch-edu4808.ts"
+    "build:edu4808": "tsx scripts/fetch-edu4808.ts",
+    "build:levels": "tsx scripts/build-levels.ts ~/Library/Rime/essay.txt src/data/edu4808.json src/data/levels.json"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.8",
