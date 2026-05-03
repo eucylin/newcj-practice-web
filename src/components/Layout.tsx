@@ -1,4 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { loadSettings, type Theme } from '@/lib/storage'
+import { setTheme } from '@/lib/theme'
 
 const navItems = [
   { to: '/', label: '首頁' },
@@ -7,6 +10,18 @@ const navItems = [
   { to: '/radicals', label: '字根表' },
   { to: '/stats', label: '個人紀錄' },
 ]
+
+function ThemeToggle() {
+  const [theme, setLocal] = useState<Theme>('system')
+  useEffect(() => setLocal(loadSettings().theme), [])
+  function toggle() {
+    const next: Theme = theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark'
+    setLocal(next)
+    setTheme(next)
+  }
+  const label = theme === 'dark' ? '🌙' : theme === 'light' ? '☀' : '◐'
+  return <button onClick={toggle} className="ml-auto text-lg" title={`主題：${theme}`}>{label}</button>
+}
 
 export default function Layout() {
   return (
@@ -25,6 +40,7 @@ export default function Layout() {
             {item.label}
           </NavLink>
         ))}
+        <ThemeToggle />
       </nav>
       <main><Outlet /></main>
     </div>
