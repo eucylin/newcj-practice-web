@@ -50,6 +50,15 @@ export function CharacterPracticeRunner({ questions, onFinish }: Props) {
     setStatus('idle')
   }
 
+  function handleInputChange(newValue: string) {
+    if (status === 'wrong' && newValue.length > input.length) {
+      setInput(newValue.slice(input.length))
+      setStatus('idle')
+      return
+    }
+    setInput(newValue)
+  }
+
   function handleSubmit(value: string) {
     if (status === 'correct' || revealed) {
       nextQuestion()
@@ -74,7 +83,10 @@ export function CharacterPracticeRunner({ questions, onFinish }: Props) {
 
   useEffect(() => {
     if (status === 'wrong') {
-      const t = setTimeout(() => setStatus('idle'), 800)
+      const t = setTimeout(() => {
+        setStatus('idle')
+        setInput('')
+      }, 1000)
       return () => clearTimeout(t)
     }
   }, [status])
@@ -89,7 +101,7 @@ export function CharacterPracticeRunner({ questions, onFinish }: Props) {
 
       <CodeInput
         value={input}
-        onChange={setInput}
+        onChange={handleInputChange}
         onSubmit={handleSubmit}
         status={status}
         disabled={revealed && status !== 'correct'}

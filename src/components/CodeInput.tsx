@@ -21,11 +21,13 @@ export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle'
   const radicals = codeToRadicalString(value)
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (disabled) return
-
     if (e.key === ' ') {
       e.preventDefault()
       onSubmit(value)
+      return
+    }
+    if (disabled) {
+      e.preventDefault()
       return
     }
     if (e.key === 'Backspace') {
@@ -58,7 +60,6 @@ export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle'
         value={value}
         onChange={() => {}}
         onKeyDown={handleKeyDown}
-        disabled={disabled}
         className="absolute opacity-0 w-1 h-1 pointer-events-none"
       />
       <div
