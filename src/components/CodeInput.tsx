@@ -53,7 +53,7 @@ export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle'
   }[status]
 
   return (
-    <div className={cn('flex flex-col items-center gap-3', className)}>
+    <div className={cn('flex flex-col items-center gap-1.5', className)}>
       <input
         ref={inputRef}
         type="text"
@@ -65,24 +65,24 @@ export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle'
       <div
         onClick={() => inputRef.current?.focus()}
         className={cn(
-          'group relative min-w-[360px] min-h-[80px] flex items-center justify-center rounded-lg border-2 px-8 py-4 transition-colors duration-200',
-          'font-serif text-4xl tracking-[0.35em] cursor-text',
+          'group relative min-w-[300px] h-[60px] flex items-center justify-center rounded-lg border-2 px-6 transition-colors duration-200',
+          'font-serif text-2xl tracking-[0.3em] cursor-text',
           frame,
         )}
       >
         {radicals ? (
           <span className="select-none">{radicals}</span>
         ) : (
-          <span className="text-muted-foreground/60 text-base font-sans tracking-normal">
-            打字根鍵後按 <kbd className="font-mono text-xs px-1.5 py-0.5 rounded border border-border bg-background mx-0.5">space</kbd> 送出
+          <span className="text-muted-foreground/60 text-sm font-sans tracking-normal">
+            打字根鍵後按空白送出
           </span>
         )}
         {!disabled && radicals && (
-          <span className="ml-1 inline-block w-[2px] h-8 bg-foreground/70 animate-pulse" />
+          <span className="ml-1 inline-block w-[2px] h-6 bg-foreground/70 animate-pulse" />
         )}
       </div>
       {value && (
-        <div className="font-mono text-[11px] tracking-[0.4em] uppercase text-muted-foreground/70">
+        <div className="font-mono text-[10px] tracking-[0.35em] uppercase text-muted-foreground/70">
           {value.split('').join(' ')}
         </div>
       )}
