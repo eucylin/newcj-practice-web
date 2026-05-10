@@ -96,7 +96,7 @@ export function CharacterPracticeRunner({ questions, onFinish }: Props) {
     status === 'correct'
       ? 'border-emerald-600'
       : status === 'wrong'
-        ? 'border-vermilion'
+        ? 'border-destructive'
         : revealed
           ? 'border-[hsl(var(--gold))]'
           : 'border-foreground/15'
@@ -167,7 +167,7 @@ export function CharacterPracticeRunner({ questions, onFinish }: Props) {
           </span>
         )}
         {status === 'wrong' && !revealed && (
-          <span className="text-vermilion">
+          <span className="text-destructive">
             已錯 <span className="font-serif font-bold text-lg">{errors}</span> / {ERRORS_BEFORE_REVEAL} 次
           </span>
         )}

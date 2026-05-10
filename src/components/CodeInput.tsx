@@ -49,7 +49,7 @@ export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle'
   const frame = {
     idle: 'border-border bg-card',
     correct: 'border-emerald-600 bg-emerald-50/40 dark:bg-emerald-950/20',
-    wrong: 'border-vermilion bg-vermilion-soft/40 dark:bg-vermilion-soft/20',
+    wrong: 'border-destructive bg-destructive/10',
   }[status]
 
   return (
