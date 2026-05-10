@@ -1,4 +1,4 @@
-export type Theme = 'light' | 'dark' | 'system'
+export type Theme = 'light' | 'dark'
 export type Level = 'beginner' | 'intermediate' | 'advanced' | 'all'
 
 export interface Settings {
@@ -26,7 +26,7 @@ const KEY_CHAR_STATS = 'newcj.charStats'
 const KEY_SESSIONS = 'newcj.sessions'
 const SESSIONS_MAX = 50
 
-export const DEFAULT_SETTINGS: Settings = { theme: 'system', defaultLevel: 'beginner' }
+export const DEFAULT_SETTINGS: Settings = { theme: 'light', defaultLevel: 'beginner' }
 
 function readJSON<T>(key: string, fallback: T): T {
   try {
@@ -38,7 +38,20 @@ function readJSON<T>(key: string, fallback: T): T {
 }
 
 export function loadSettings(): Settings {
-  return { ...DEFAULT_SETTINGS, ...readJSON<Partial<Settings>>(KEY_SETTINGS, {}) }
+  const merged = { ...DEFAULT_SETTINGS, ...readJSON<Partial<Settings>>(KEY_SETTINGS, {}) }
+  if (merged.theme !== 'light' && merged.theme !== 'dark') merged.theme = 'light'
+  return merged
+}
+
+export function isThemeStored(): boolean {
+  const raw = localStorage.getItem(KEY_SETTINGS)
+  if (!raw) return false
+  try {
+    const parsed = JSON.parse(raw)
+    return parsed.theme === 'light' || parsed.theme === 'dark'
+  } catch {
+    return false
+  }
 }
 
 export function saveSettings(settings: Settings): void {

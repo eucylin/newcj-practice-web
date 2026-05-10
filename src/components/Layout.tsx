@@ -12,15 +12,16 @@ const navItems = [
 ]
 
 function ThemeToggle() {
-  const [theme, setLocal] = useState<Theme>('system')
+  const [theme, setLocal] = useState<Theme>('light')
   useEffect(() => setLocal(loadSettings().theme), [])
   function toggle() {
-    const next: Theme = theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark'
+    const next: Theme = theme === 'dark' ? 'light' : 'dark'
     setLocal(next)
     setTheme(next)
   }
-  const label = theme === 'dark' ? '🌙' : theme === 'light' ? '☀' : '◐'
-  return <button onClick={toggle} className="ml-auto text-lg" title={`主題：${theme}`}>{label}</button>
+  const label = theme === 'dark' ? '🌙' : '☀'
+  const title = theme === 'dark' ? '切換為亮色' : '切換為暗色'
+  return <button onClick={toggle} className="ml-auto text-lg" title={title}>{label}</button>
 }
 
 export default function Layout() {
