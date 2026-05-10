@@ -46,14 +46,14 @@ export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle'
     }
   }
 
-  const ringColor = {
-    idle: 'border-border',
-    correct: 'border-green-500',
-    wrong: 'border-red-500',
+  const frame = {
+    idle: 'border-border bg-card',
+    correct: 'border-emerald-600 bg-emerald-50/40 dark:bg-emerald-950/20',
+    wrong: 'border-vermilion bg-vermilion-soft/40 dark:bg-vermilion-soft/20',
   }[status]
 
   return (
-    <div className={cn('flex flex-col items-center gap-2', className)}>
+    <div className={cn('flex flex-col items-center gap-3', className)}>
       <input
         ref={inputRef}
         type="text"
@@ -65,14 +65,27 @@ export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle'
       <div
         onClick={() => inputRef.current?.focus()}
         className={cn(
-          'min-w-[280px] min-h-[64px] flex items-center justify-center rounded-lg border-2 px-6 py-3',
-          'text-3xl tracking-[0.4em] font-medium cursor-text bg-muted/30',
-          ringColor,
+          'group relative min-w-[360px] min-h-[80px] flex items-center justify-center rounded-lg border-2 px-8 py-4 transition-colors duration-200',
+          'font-serif text-4xl tracking-[0.35em] cursor-text',
+          frame,
         )}
       >
-        {radicals || <span className="text-muted-foreground text-base tracking-normal">點此後開始輸入</span>}
-        {!disabled && <span className="ml-1 inline-block w-[2px] h-7 bg-foreground animate-pulse" />}
+        {radicals ? (
+          <span className="select-none">{radicals}</span>
+        ) : (
+          <span className="text-muted-foreground/60 text-base font-sans tracking-normal">
+            打字根鍵後按 <kbd className="font-mono text-xs px-1.5 py-0.5 rounded border border-border bg-background mx-0.5">space</kbd> 送出
+          </span>
+        )}
+        {!disabled && radicals && (
+          <span className="ml-1 inline-block w-[2px] h-8 bg-foreground/70 animate-pulse" />
+        )}
       </div>
+      {value && (
+        <div className="font-mono text-[11px] tracking-[0.4em] uppercase text-muted-foreground/70">
+          {value.split('').join(' ')}
+        </div>
+      )}
     </div>
   )
 }

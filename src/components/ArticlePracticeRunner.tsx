@@ -27,6 +27,7 @@ export function ArticlePracticeRunner({ text, onFinish }: Props) {
   const [totalAttempts, setTotalAttempts] = useState(0)
   const [startTs, setStartTs] = useState<number | null>(null)
   const [endTs, setEndTs] = useState<number | null>(null)
+  const [tick, setTick] = useState(0)
   const finishedRef = useRef(false)
 
   const cjkCount = useMemo(() => chars.filter(isCJK).length, [chars])
@@ -89,40 +90,91 @@ export function ArticlePracticeRunner({ text, onFinish }: Props) {
     }
   }, [status])
 
+  useEffect(() => {
+    if (startTs === null || endTs !== null) return
+    const id = setInterval(() => setTick(t => t + 1), 250)
+    return () => clearInterval(id)
+  }, [startTs, endTs])
+
   if (endTs !== null && startTs !== null) {
     const durationMs = endTs - startTs
     const cpm = calcCPM(cjkCount, durationMs)
     const accuracy = calcAccuracy(totalAttempts - errors, totalAttempts)
     return (
-      <div className="max-w-2xl mx-auto p-8 space-y-6 text-center">
-        <h2 className="text-2xl font-bold">完成！</h2>
-        <div className="grid grid-cols-3 gap-4">
-          <div><div className="text-3xl font-bold">{cpm}</div><div className="text-sm text-muted-foreground">CPM</div></div>
-          <div><div className="text-3xl font-bold">{Math.round(accuracy * 100)}%</div><div className="text-sm text-muted-foreground">正確率</div></div>
-          <div><div className="text-3xl font-bold">{Math.round(durationMs / 1000)}s</div><div className="text-sm text-muted-foreground">用時</div></div>
+      <div className="max-w-2xl mx-auto px-8 py-16 space-y-10 text-center">
+        <div className="space-y-2">
+          <div className="seal-stamp text-base inline-flex">畢</div>
+          <h2 className="font-serif font-black text-5xl tracking-tight mt-4">完成練習</h2>
+          <div className="brush-rule w-24 mx-auto" />
         </div>
-        <Button onClick={onFinish}>回主畫面</Button>
+        <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
+          <Stat value={cpm} label="CPM" highlight />
+          <Stat value={`${Math.round(accuracy * 100)}%`} label="正確率" />
+          <Stat value={`${Math.round(durationMs / 1000)}s`} label="用時" />
+        </div>
+        <Button
+          onClick={onFinish}
+          className="bg-vermilion hover:bg-vermilion-deep text-primary-foreground px-8"
+        >
+          回主畫面
+        </Button>
       </div>
     )
   }
 
+  const elapsedSec = startTs !== null ? Math.round((Date.now() - startTs) / 1000) : 0
+  void tick
+
   return (
-    <div className="max-w-3xl mx-auto p-8 space-y-6">
-      <div className="text-sm text-muted-foreground">
-        進度 {completedCjk} / {cjkCount}{startTs !== null && ` · 已用 ${Math.round((Date.now() - startTs) / 1000)}s`}
+    <div className="max-w-3xl mx-auto px-8 py-10 space-y-8">
+      {/* 進度與計時 */}
+      <div className="flex items-baseline justify-between font-mono text-xs">
+        <div className="tracking-[0.25em] uppercase text-muted-foreground">
+          進度
+          <span className="text-foreground ml-2 font-serif text-base">
+            {completedCjk}
+          </span>
+          <span className="text-muted-foreground"> / {cjkCount}</span>
+        </div>
+        <div className="tracking-[0.25em] uppercase text-muted-foreground">
+          用時
+          <span className="text-foreground ml-2 font-serif text-base">{elapsedSec}s</span>
+        </div>
+      </div>
+      <div className="h-[3px] w-full bg-muted rounded-full overflow-hidden">
+        <div
+          className="h-full bg-vermilion transition-all duration-300 ease-out rounded-full"
+          style={{ width: `${cjkCount > 0 ? (completedCjk / cjkCount) * 100 : 0}%` }}
+        />
       </div>
 
-      <div className="text-2xl leading-relaxed select-none">
+      {/* 文章框 */}
+      <div className="paper-card p-8 font-serif text-2xl leading-[2.2] select-none tracking-wide">
         {chars.map((c, i) => {
           const cls =
-            i < idx ? 'text-muted-foreground/50' :
-            i === idx ? 'bg-yellow-200 dark:bg-yellow-900/40 px-0.5 rounded' :
-            ''
+            i < idx
+              ? 'text-muted-foreground/40'
+              : i === idx
+                ? 'bg-vermilion text-primary-foreground px-1 rounded animate-pulse'
+                : 'text-foreground'
           return <span key={i} className={cls}>{c}</span>
         })}
       </div>
 
       <CodeInput value={input} onChange={setInput} onSubmit={handleSubmit} status={status} />
+    </div>
+  )
+}
+
+function Stat({ value, label, highlight = false }: { value: string | number; label: string; highlight?: boolean }) {
+  return (
+    <div className="paper-card p-5">
+      <div className={`font-serif font-bold text-4xl leading-none ${highlight ? 'text-vermilion' : ''}`}>
+        {value}
+      </div>
+      <div className="text-xs font-mono tracking-[0.25em] uppercase text-muted-foreground mt-2">
+        {label}
+      </div>
     </div>
   )
 }

@@ -48,17 +48,20 @@ export function RadicalsSheet({ open, onClose }: Props) {
           open ? 'translate-x-0' : 'translate-x-full',
         )}
       >
-        <header className="flex items-center justify-between px-6 py-4 border-b">
+        <header className="flex items-center justify-between px-6 py-4 border-b border-border bg-background/95 backdrop-blur">
           <div className="flex items-center gap-3">
-            <h2 className="font-semibold text-lg">字根速查</h2>
-            <kbd className="text-xs px-1.5 py-0.5 rounded border bg-muted text-muted-foreground">?</kbd>
+            <span className="seal-stamp text-sm">查</span>
+            <h2 className="font-serif font-semibold text-lg tracking-wide">字根速查</h2>
+            <kbd className="font-mono text-[11px] px-1.5 py-0.5 rounded border border-border bg-muted text-muted-foreground">?</kbd>
           </div>
           <button
             onClick={onClose}
             aria-label="關閉字根表"
-            className="rounded-md w-8 h-8 hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground"
+            className="rounded-md w-9 h-9 hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           >
-            ✕
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
           </button>
         </header>
         <div className="flex-1 overflow-y-auto p-6">
