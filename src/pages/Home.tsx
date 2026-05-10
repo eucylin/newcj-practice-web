@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom'
 import { useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { loadSessions } from '@/lib/storage'
+import { useOpenRadicals } from '@/components/RadicalsSheet'
 
 export default function Home() {
   const recent = useMemo(() => loadSessions().slice(-5).reverse(), [])
   const lastCpm = recent[0]?.cpm
+  const openRadicals = useOpenRadicals()
 
   return (
     <div className="max-w-4xl mx-auto p-8 space-y-8">
@@ -27,18 +29,18 @@ export default function Home() {
           <Card className="hover:border-primary cursor-pointer h-full">
             <CardHeader><CardTitle>文章練習</CardTitle></CardHeader>
             <CardContent className="text-muted-foreground">
-              內建 6 篇文章，或貼上自己的文章計時練習。
+              內建 7 篇文章，或貼上自己的文章計時練習。
             </CardContent>
           </Card>
         </Link>
-        <Link to="/radicals">
+        <button type="button" onClick={openRadicals} className="text-left">
           <Card className="hover:border-primary cursor-pointer h-full">
             <CardHeader><CardTitle>字根表</CardTitle></CardHeader>
             <CardContent className="text-muted-foreground">
-              25 個鍵位字根對照與範例字。
+              隨時呼叫的速查面板，或按 <kbd className="px-1.5 py-0.5 rounded border bg-muted text-xs">?</kbd> 鍵開啟。
             </CardContent>
           </Card>
-        </Link>
+        </button>
         <Link to="/stats">
           <Card className="hover:border-primary cursor-pointer h-full">
             <CardHeader><CardTitle>個人紀錄</CardTitle></CardHeader>
