@@ -9,6 +9,7 @@ const navItems = [
   { to: '/practice/character', label: '單字練習' },
   { to: '/practice/article', label: '文章練習' },
   { to: '/stats', label: '個人紀錄' },
+  { to: '/about', label: '關於本站' },
 ]
 
 function ThemeToggle() {
@@ -59,7 +60,7 @@ export default function Layout() {
             <NavLink to="/" className="flex items-center gap-2.5 group">
               <span className="seal-stamp text-base leading-none">大</span>
               <span className="font-serif font-semibold text-lg tracking-wide group-hover:text-vermilion transition-colors">
-                大新倉頡
+                大新倉頡練習網
               </span>
             </NavLink>
             <div className="flex items-center gap-1">

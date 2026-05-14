@@ -62,9 +62,9 @@ export default function Home() {
           DA XIN CANGJIE · 大新倉頡
         </div>
         <h1 className="font-serif font-black text-7xl tracking-tight leading-none">
-          學會、練熟，
+          學習大新，
           <br />
-          <span className="text-vermilion">然後變快。</span>
+          <span className="text-vermilion">沒那麼難。</span>
         </h1>
         <p className="font-sans text-lg text-muted-foreground max-w-xl leading-relaxed">
           以教育部 4808 常用字與七篇日常文章為料，從拆碼到 CPM。
