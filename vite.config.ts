@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from 'node:path'
 
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/newcj-practice/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/newcj-practice-web/' : '/',
   plugins: [react()],
   server: {
     port: 8456,
