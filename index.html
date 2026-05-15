@@ -11,6 +11,20 @@
       rel="stylesheet"
     />
     <title>大新倉頡練習網</title>
+    <script>
+      // 對應 public/404.html 的 SPA fallback：把 query string 中的路徑還原回 history，
+      // 讓 React Router 看到原本的 pathname 而非 ?/ 形式。
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function (s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(
+            null, null, l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      })(window.location);
+    </script>
   </head>
   <body>
     <div id="root"></div>

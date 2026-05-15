@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <title>大新倉頡練習網</title>
+    <script>
+      // GitHub Pages SPA fallback：把當前路徑塞進 query string，重導回 base index.html。
+      // index.html 那一側會把 query string 還原回 history，讓 React Router 接手 render 正確頁面。
+      // 參考：https://github.com/rafgraph/spa-github-pages
+      (function () {
+        var segmentCount = 1; // base path 為 /newcj-practice-web/，需略過 1 段
+        var l = window.location;
+        l.replace(
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?/' +
+          l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash
+        );
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
