@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { codeToRadicalString, isRadicalKey } from '@/lib/codeMap'
 import { cn } from '@/lib/utils'
 
@@ -13,6 +13,7 @@ interface Props {
 
 export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle', className }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
+  const [focused, setFocused] = useState(false)
 
   useEffect(() => {
     if (!disabled) inputRef.current?.focus()
@@ -60,6 +61,8 @@ export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle'
         value={value}
         onChange={() => {}}
         onKeyDown={handleKeyDown}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         className="absolute opacity-0 w-1 h-1 pointer-events-none"
       />
       <div
@@ -73,12 +76,14 @@ export function CodeInput({ value, onChange, onSubmit, disabled, status = 'idle'
         {radicals ? (
           <span className="select-none">{radicals}</span>
         ) : (
-          <span className="text-muted-foreground/60 text-sm font-sans tracking-normal">
-            打字根鍵後按空白送出
-          </span>
+          !focused && (
+            <span className="text-muted-foreground/60 text-sm font-sans tracking-normal">
+              打字根鍵後按空白送出
+            </span>
+          )
         )}
-        {!disabled && radicals && (
-          <span className="ml-1 inline-block w-[2px] h-6 bg-foreground/70 animate-pulse" />
+        {!disabled && focused && (
+          <span className="ml-1 inline-block w-[2px] h-6 bg-foreground/80 caret-blink" />
         )}
       </div>
       {value && (

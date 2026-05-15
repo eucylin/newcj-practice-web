@@ -90,6 +90,23 @@ export function CharacterPracticeRunner({ questions, onFinish }: Props) {
     }
   }, [status])
 
+  useEffect(() => {
+    let lastCtrl = 0
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== 'Control') return
+      if (e.repeat) return
+      const now = Date.now()
+      if (now - lastCtrl < 400) {
+        lastCtrl = 0
+        if (!revealed && status !== 'correct') setRevealed(true)
+      } else {
+        lastCtrl = now
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [revealed, status])
+
   const progress = ((idx + (status === 'correct' || revealed ? 1 : 0)) / questions.length) * 100
   const frameColor =
     status === 'correct'
@@ -155,7 +172,7 @@ export function CharacterPracticeRunner({ questions, onFinish }: Props) {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            答對！再按空白前進
+            答對！
           </span>
         )}
         {status === 'wrong' && !revealed && (
@@ -163,19 +180,25 @@ export function CharacterPracticeRunner({ questions, onFinish }: Props) {
             已錯 <span className="font-serif font-bold">{errors}</span> / {ERRORS_BEFORE_REVEAL} 次
           </span>
         )}
-        {revealed && (
-          <span className="text-muted-foreground">
-            按 <kbd className="font-mono text-[11px] px-1.5 py-0.5 rounded border bg-card mx-0.5">space</kbd> 前進下一題
-          </span>
+        {(status === 'correct' || revealed) && (
+          <button
+            type="button"
+            onClick={nextQuestion}
+            className="px-3 py-1 rounded border border-vermilion/50 text-vermilion hover:bg-vermilion/10 transition-colors cursor-pointer text-xs inline-flex items-center gap-1.5"
+          >
+            下一題
+            <kbd className="font-mono text-[10px] px-1 py-0 rounded border border-vermilion/30 bg-card/50">space</kbd>
+          </button>
         )}
         {!revealed && status !== 'correct' && (
           <span className="inline-flex items-center gap-1.5 text-xs ml-1">
             <button
               type="button"
               onClick={() => setRevealed(true)}
-              className="px-2.5 py-1 rounded border border-[hsl(var(--gold))]/40 text-[hsl(var(--gold))] hover:bg-[hsl(var(--gold))]/10 transition-colors cursor-pointer"
+              className="px-2.5 py-1 rounded border border-[hsl(var(--gold))]/40 text-[hsl(var(--gold))] hover:bg-[hsl(var(--gold))]/10 transition-colors cursor-pointer inline-flex items-center gap-1.5"
             >
               揭示
+              <kbd className="font-mono text-[10px] px-1 py-0 rounded border border-[hsl(var(--gold))]/30 bg-card/50">Ctrl×2</kbd>
             </button>
             <button
               type="button"
