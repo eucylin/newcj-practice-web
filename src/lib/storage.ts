@@ -1,9 +1,11 @@
 export type Theme = 'light' | 'dark'
-export type Level = 'beginner' | 'intermediate' | 'advanced' | 'all'
+export type Level = 'beginner' | 'intermediate' | 'advanced'
+
+export const ALL_LEVELS: Level[] = ['beginner', 'intermediate', 'advanced']
 
 export interface Settings {
   theme: Theme
-  defaultLevel: Level
+  defaultLevels: Level[]
 }
 
 export interface CharStat {
@@ -26,7 +28,7 @@ const KEY_CHAR_STATS = 'newcj.charStats'
 const KEY_SESSIONS = 'newcj.sessions'
 const SESSIONS_MAX = 50
 
-export const DEFAULT_SETTINGS: Settings = { theme: 'light', defaultLevel: 'beginner' }
+export const DEFAULT_SETTINGS: Settings = { theme: 'light', defaultLevels: ['beginner'] }
 
 function readJSON<T>(key: string, fallback: T): T {
   try {
@@ -38,9 +40,16 @@ function readJSON<T>(key: string, fallback: T): T {
 }
 
 export function loadSettings(): Settings {
-  const merged = { ...DEFAULT_SETTINGS, ...readJSON<Partial<Settings>>(KEY_SETTINGS, {}) }
-  if (merged.theme !== 'light' && merged.theme !== 'dark') merged.theme = 'light'
-  return merged
+  const stored = readJSON<Partial<Settings> & { defaultLevel?: Level | 'all' }>(KEY_SETTINGS, {})
+  const theme: Theme = stored.theme === 'dark' ? 'dark' : 'light'
+  // 舊版單選設定遷移：'all' 展開為三級全選，其餘合法值轉為單元素陣列
+  let defaultLevels = Array.isArray(stored.defaultLevels)
+    ? stored.defaultLevels.filter((l): l is Level => ALL_LEVELS.includes(l as Level))
+    : stored.defaultLevel === 'all'
+      ? [...ALL_LEVELS]
+      : ALL_LEVELS.filter(l => l === stored.defaultLevel)
+  if (defaultLevels.length === 0) defaultLevels = [...DEFAULT_SETTINGS.defaultLevels]
+  return { theme, defaultLevels }
 }
 
 export function isThemeStored(): boolean {

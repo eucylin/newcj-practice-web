@@ -17,8 +17,25 @@ describe('storage.settings', () => {
   })
 
   it('saveSettings + loadSettings: 來回一致', () => {
-    saveSettings({ theme: 'dark', defaultLevel: 'intermediate' })
-    expect(loadSettings()).toEqual({ theme: 'dark', defaultLevel: 'intermediate' })
+    saveSettings({ theme: 'dark', defaultLevels: ['intermediate', 'advanced'] })
+    expect(loadSettings()).toEqual({ theme: 'dark', defaultLevels: ['intermediate', 'advanced'] })
+  })
+
+  it('loadSettings: 舊版單選 defaultLevel 遷移為陣列', () => {
+    localStorage.setItem('newcj.settings', JSON.stringify({ theme: 'light', defaultLevel: 'intermediate' }))
+    expect(loadSettings().defaultLevels).toEqual(['intermediate'])
+  })
+
+  it("loadSettings: 舊版 defaultLevel 'all' 展開為三級全選", () => {
+    localStorage.setItem('newcj.settings', JSON.stringify({ theme: 'light', defaultLevel: 'all' }))
+    expect(loadSettings().defaultLevels).toEqual(['beginner', 'intermediate', 'advanced'])
+  })
+
+  it('loadSettings: defaultLevels 含非法值時過濾，全空則回預設', () => {
+    localStorage.setItem('newcj.settings', JSON.stringify({ theme: 'light', defaultLevels: ['advanced', 'bogus'] }))
+    expect(loadSettings().defaultLevels).toEqual(['advanced'])
+    localStorage.setItem('newcj.settings', JSON.stringify({ theme: 'light', defaultLevels: [] }))
+    expect(loadSettings().defaultLevels).toEqual(['beginner'])
   })
 })
 
