@@ -51,16 +51,16 @@ export default function About() {
             </span>
             <div className="flex-1 pb-3 border-b border-border/60">
               <p>
-                <strong className="text-foreground">大新倉頡輸入法</strong>的所有權與相關著作權，皆屬{' '}
+                <strong className="text-foreground">大新倉頡輸入法</strong>是{OWNER_NAME}基於傳統倉頡設計與開發的輸入法，若有興趣使用可至{' '}
                 <a
                   href={OWNER_SITE}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-vermilion hover:underline font-medium"
+                  className="text-vermilion hover:underline font-medium break-all"
                 >
-                  {OWNER_NAME}
+                  {OWNER_SITE}
                 </a>{' '}
-                所有。
+                自行購買軟體。
               </p>
             </div>
           </li>
@@ -80,16 +80,8 @@ export default function About() {
             </span>
             <div className="flex-1 pb-3 border-b border-border/60">
               <p>
-                若要實際使用大新倉頡輸入法，請至{' '}
-                <a
-                  href={OWNER_SITE}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-vermilion hover:underline font-medium break-all"
-                >
-                  {OWNER_SITE}
-                </a>{' '}
-                <strong className="text-foreground">自行購買正版軟體</strong>。
+                由於輸入法的拆碼表並無專利保護，若想使用與大新倉頡相同拆碼原則的非官方輸入法，可以自行上網搜尋
+                <strong className="text-foreground">「RIME大新倉頡（自由大新）」</strong>。
               </p>
             </div>
           </li>
