@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 對應 .seal-stamp 印章樣式：亮色用朱紅（--vermilion），暗色用金（dark --vermilion） -->
+  <style>
+    .seal { stroke: #b62020; }
+    .char { fill: #b62020; }
+    @media (prefers-color-scheme: dark) {
+      .seal { stroke: #d1a861; }
+      .char { fill: #d1a861; }
+    }
+  </style>
+  <rect class="seal" x="4" y="4" width="56" height="56" rx="10" fill="none" stroke-width="4.5" />
+  <text
+    class="char"
+    x="32"
+    y="35"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="'Noto Serif TC', 'Source Han Serif TC', 'PingFang TC', 'Microsoft JhengHei', serif"
+    font-size="38"
+    font-weight="700"
+  >新</text>
+</svg>

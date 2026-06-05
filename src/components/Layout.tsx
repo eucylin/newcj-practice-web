@@ -58,7 +58,7 @@ export default function Layout() {
         <nav className="sticky top-0 z-30 backdrop-blur-md bg-background/85 border-b border-border">
           <div className="max-w-6xl mx-auto px-8 py-3 flex items-center gap-8">
             <NavLink to="/" className="flex items-center gap-2.5 group">
-              <span className="seal-stamp text-base leading-none">大</span>
+              <span className="seal-stamp text-base leading-none">新</span>
               <span className="font-serif font-semibold text-lg tracking-wide group-hover:text-vermilion transition-colors">
                 大新倉頡練習網
               </span>
