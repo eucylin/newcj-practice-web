@@ -4,8 +4,7 @@ import { ArticlePracticeRunner } from '@/components/ArticlePracticeRunner'
 import { ARTICLES } from '@/data/articles'
 
 const categoryColor: Record<string, string> = {
-  歌詞: 'text-rose-600 dark:text-rose-400',
-  心情日記: 'text-amber-600 dark:text-amber-400',
+  潮文: 'text-amber-600 dark:text-amber-400',
   新聞: 'text-blue-700 dark:text-blue-400',
   商業: 'text-emerald-700 dark:text-emerald-400',
   百科: 'text-violet-700 dark:text-violet-400',
